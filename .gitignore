@@ -4,3 +4,5 @@ Thumbs.db
 data/**
 data
 feaMatPCA.mat
+*.pdf
+*.swp
