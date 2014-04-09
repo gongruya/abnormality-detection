@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+.hg
+data/**
+data
+feaMatPCA.mat
