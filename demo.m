@@ -34,7 +34,7 @@ ThrMotionVol = 5;
  
 
 
-volFrame = 3; % the number of video we test
+volFrame = 17; % the number of video we test
 %volFrame = 20;
 %volFrame = 21;
 
