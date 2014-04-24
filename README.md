@@ -1,4 +1,3 @@
-
 Abnormality Detection in MATLAB
 =====
 This is the Matlab code based on the public code written by Cewu Lu and on the following paper,
@@ -9,3 +8,5 @@ The sparse combination training system is written by Ruya Gong based on [1] due 
 ###Dataset
 The training and testing videos are downloaded from the paper author's page:
 [http://appsrv.cse.cuhk.edu.hk/~cwlu/Anormality\_1000\_FPS/dataset.html](http://appsrv.cse.cuhk.edu.hk/~cwlu/Anormality_1000_FPS/dataset.html)
+, and from this project website:
+[http://www.cse.yorku.ca/vision/research/anomalous-behaviour-data](http://www.cse.yorku.ca/vision/research/anomalous-behaviour-data)
