@@ -14,7 +14,6 @@ function [feaPCA, LocV3] = test_features(feaVol, Tw, ThrMotionVol, params)
 %   @feaPCA: PCA feature 
 %   @LocV3:  selected 3D gradient volume location 
 %
-
     patchWin = params.patchWin; 
     tprLen = params.tprLen;
     BKH = params.BKH;

@@ -34,12 +34,17 @@ ThrMotionVol = 5;
  
 
 
-volFrame = 17; % the number of video we test
+%volFrame = 10; % the number of video we test
 %volFrame = 20;
 %volFrame = 21;
 
-load(['data/testing_vol/vol', sprintf('%.2d', volFrame),'.mat']); 
-imgVol = im2double(vol);
+load('data/WD_testing_1.mat'); 
+%imgVol = im2double(vol);
+
+for ii = 1 : size(output, 4)
+    imgVol(:, :, ii) = rgb2gray(output(:, :, :, ii));
+end
+
 t1 = tic;
 volBlur = imgVol; 
 blurKer = fspecial('gaussian', [3,3], 1);
@@ -58,18 +63,26 @@ end
 AbEvent3 = smooth3( AbEvent, 'box', 5);
 % AbEvent3 already can indicate abnormalities in each region, so testing stops here.
 t2 = toc(t1); 
-fprintf('we can achieve %d FPS in %d th video \n', round(size(imgVol,3)/t2), volFrame);
+fprintf('We can achieve %d FPS in the current testing video\n', round(size(imgVol,3)/t2));
 
 
 %% video demo
-optThr = 0.12;
+optThr = 0.22;
 AbEventShow3 = imgVol; 
 for frameID = 1 : size(imgVol,3)
     AbEventShow3(:,:,frameID) = double(imresize(AbEvent3(:,:,frameID) ,[H, W], 'nearest') > optThr) ;
 end
 
-for frameID = 1 : size(imgVol,3)  
-    imshow([imresize(imgVol(:,:,frameID) + 0.5 * AbEventShow3(:,:,frameID), 3)]);
+grid = zeros(120, 160);
+grid(:, [1, 10: 10: 160]) = 1;
+grid([1, 10: 10: 120], :) = 1;
+
+for frameID = 1 : size(output,4)  
+    curFrame = output(:, :, :, frameID);
+    curFrame(:, :, 2) = min(curFrame(:, :, 2) + 0.5 * AbEventShow3(:,:,frameID), 1);
+    curFrame(:, :, 3) = min(curFrame(:, :, 3) + 0.95 * grid, 1);
+    curFrame = imresize(curFrame, 3);
+    imshow(curFrame);
     pause(1/100);
     %getframe;
 end

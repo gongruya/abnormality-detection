@@ -21,8 +21,11 @@ trs = params.trs;
 MT_thr = params.MT_thr; 
 tprLen = params.tprLen; 
  
-load(fileName);
-vol = im2double(vol); 
+load(fileName, 'output');
+
+for ii = 1 : size(output, 4)
+    vol(:, :, ii) = rgb2gray(output(:, :, :, ii));
+end
  
 voBlur = vol; 
 blurKer = fspecial('gaussian', [3,3],1);    %smooth
