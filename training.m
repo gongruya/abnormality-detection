@@ -47,7 +47,7 @@ save('data/sparse_combinations/Tw.mat','Tw');
 
 %% Sparse combination learning  (about 4 minutes)
 tic;
-D = sparse_combination(feaMatPCA, 20, 0.22);
+D = sparse_combination(feaMatPCA, 20, 0.20);
 %   D = sparse_combination(X, Dim, Thr) learns sparse combination 
 %
 %   input: 
