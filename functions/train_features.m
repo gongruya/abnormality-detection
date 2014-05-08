@@ -21,10 +21,10 @@ trs = params.trs;
 MT_thr = params.MT_thr; 
 tprLen = params.tprLen; 
  
-load(fileName, 'output');
+load(fileName, 'Video_Output');
 
-for ii = 1 : size(output, 4)
-    vol(:, :, ii) = rgb2gray(output(:, :, :, ii));
+for ii = 1 : size(Video_Output, 4)
+    vol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
 end
  
 voBlur = vol; 

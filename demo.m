@@ -41,8 +41,8 @@ ThrMotionVol = 5;
 load('data/WD_testing_1.mat'); 
 %imgVol = im2double(vol);
 
-for ii = 1 : size(output, 4)
-    imgVol(:, :, ii) = rgb2gray(output(:, :, :, ii));
+for ii = 1 : size(Video_Output, 4)
+    imgVol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
 end
 
 t1 = tic;
@@ -77,8 +77,8 @@ grid = zeros(120, 160);
 grid(:, [1, 10: 10: 160]) = 1;
 grid([1, 10: 10: 120], :) = 1;
 
-for frameID = 1 : size(output,4)  
-    curFrame = output(:, :, :, frameID);
+for frameID = 1 : size(Video_Output,4)  
+    curFrame = Video_Output(:, :, :, frameID);
     curFrame(:, :, 2) = min(curFrame(:, :, 2) + 0.5 * AbEventShow3(:,:,frameID), 1);
     curFrame(:, :, 3) = min(curFrame(:, :, 3) + 0.95 * grid, 1);
     curFrame = imresize(curFrame, 3);
