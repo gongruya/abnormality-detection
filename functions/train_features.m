@@ -23,9 +23,7 @@ tprLen = params.tprLen;
  
 load(fileName, 'Video_Output');
 
-for ii = 1 : size(Video_Output, 4)
-    vol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
-end
+vol = Video_Output;
  
 voBlur = vol; 
 blurKer = fspecial('gaussian', [3,3],1);    %smooth
