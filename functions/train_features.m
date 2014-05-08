@@ -62,7 +62,7 @@ for frameID = (tprLen + 1) : trs : ( size(volG, 3) - tprLen)
         for jj = round(patchWin/2)+1 : srs : W - round(patchWin/2) 
             if motionResponse(ii,jj,frameID) > MT_thr
                 count = count + 1;
-                cube = volG(ii - round(patchWin/2):ii + round(patchWin/2)-1, jj - round(patchWin/2):jj + round(patchWin/2)-1, frameID-2:frameID+2);
+                cube = volG(ii - floor(patchWin/2):ii + floor(patchWin/2), jj - floor(patchWin/2):jj + floor(patchWin/2), frameID-2:frameID+2);
                 feaRawTrain(:,count) = cube(:);             %expand by column
                 LocV3Train(:,count) =  [ii;jj;frameID]'; 
             end

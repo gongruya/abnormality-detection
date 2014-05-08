@@ -13,14 +13,14 @@ load('data/sparse_combinations/Tw.mat','Tw');
 load('data/sparse_combinations/R.mat','R');
 params.H = 90;       % loaded video height size
 params.W = 160;       % loaded video width size
-params.patchWin = 10; % 3D patch spatial size 
+params.patchWin = 5; % 3D patch spatial size 
 params.tprLen = 5;    % 3D patch temporal length
-params.BKH = 9;      % region number in height
-params.BKW = 16;      % region number in width
-params.srs = 5;       % spatial sampling rate in trainning video volume
+params.BKH = 18;      % region number in height
+params.BKW = 32;      % region number in width
+params.srs = 3;       % spatial sampling rate in trainning video volume
 params.trs = 2;       % temporal sampling rate in trainning video volume 
 params.PCAdim = 100;  % PCA Compression dimension
-params.MT_thr = 5;    % 3D patch selecting threshold 
+params.MT_thr = 2;    % 3D patch selecting threshold 
 
 H = params.H;
 W = params.W; 
@@ -30,7 +30,7 @@ BKH = params.BKH;
 BKW = params.BKW;
 PCAdim = params.PCAdim;
 ThrTest = 0.22;
-ThrMotionVol = 5; 
+ThrMotionVol = 2; 
  
 
 
@@ -38,7 +38,7 @@ ThrMotionVol = 5;
 %volFrame = 20;
 %volFrame = 21;
 
-load('data/CV_Abnormality_3.mat'); 
+load('data/CV_Abnormality_8.mat'); 
 %imgVol = im2double(vol);
 
 for ii = 1 : size(Video_Output, 4)
@@ -68,20 +68,20 @@ fprintf('We can achieve %d FPS in the current testing video\n', round(size(imgVo
 
 
 %% video demo
-optThr = 0.10;
+optThr = 0.15;
 AbEventShow3 = imgVol; 
 for frameID = 1 : size(imgVol,3)
     AbEventShow3(:,:,frameID) = double(imresize(AbEvent3(:,:,frameID) ,[H, W], 'nearest') > optThr) ;
 end
 
-grid = zeros(90, 160);
-grid(:, [1, 10: 10: 160]) = 1;
-grid([1, 10: 10: 90], :) = 1;
+grid = zeros(H, W);
+grid(:, [1, patchWin: patchWin: W]) = 1;
+grid([1, patchWin: patchWin: H], :) = 1;
 
 for frameID = 1 : size(Video_Output,4)  
     curFrame = Video_Output(:, :, :, frameID);
     curFrame(:, :, 2) = min(curFrame(:, :, 2) + 0.5 * AbEventShow3(:,:,frameID), 1);
-    curFrame(:, :, 3) = min(curFrame(:, :, 3) + 0.95 * grid, 1);
+    %curFrame(:, :, 3) = min(curFrame(:, :, 3) + 0.95 * grid, 1);
     curFrame = imresize(curFrame, 3);
     imshow(curFrame);
     pause(1/100);
