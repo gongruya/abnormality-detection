@@ -24,7 +24,7 @@ tprLen = params.tprLen;
 load(fileName, 'Video_Output');
 
 for ii = 1 : size(Video_Output, 4)
-    Video_Output(:, :, :, ii) = im2double(Video_Output(:, :, :, ii));
+    Video_Output(:, :, :, ii) = Video_Output(:, :, :, ii)/255;
     vol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
 end
  

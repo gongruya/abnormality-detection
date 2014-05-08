@@ -26,12 +26,12 @@ addpath('data')
 %% Training feature generation (about 1 minute)
  tic;
 fileName = 'data/training_vol';
-numEachVol = 7000; % The maximum sample number in each training video is 7000 
+numEachVol = 200000; % The maximum sample number in each training video is 7000 
 trainVolDirs = name_filtering(fileName); 
 Cmatrix = zeros(tprLen*patchWin^2, length(trainVolDirs)*numEachVol);
 rand('state', 0);
 for ii = 1 : 1%length(trainVolDirs)
-    [feaRawTrain, LocV3Train]  = train_features('data/WD_training.mat', params);%train_features([fileName,'/', trainVolDirs{ii}], params);
+    [feaRawTrain, LocV3Train]  = train_features('data/CV_Abnormality_Training.mat', params);%train_features([fileName,'/', trainVolDirs{ii}], params);
     t = randperm(size(feaRawTrain,2));
     curFeaNum = min(size(feaRawTrain,2),numEachVol);
     Cmatrix(:, numEachVol*(ii - 1) + 1 : numEachVol*(ii - 1) + curFeaNum) =  feaRawTrain(:,t(1:curFeaNum));     %put random curFeaNum column into Cmatrix

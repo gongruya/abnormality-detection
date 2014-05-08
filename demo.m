@@ -29,7 +29,7 @@ tprLen = params.tprLen;
 BKH = params.BKH;
 BKW = params.BKW;
 PCAdim = params.PCAdim;
-ThrTest = 0.20;
+ThrTest = 0.22;
 ThrMotionVol = 5; 
  
 
@@ -38,11 +38,11 @@ ThrMotionVol = 5;
 %volFrame = 20;
 %volFrame = 21;
 
-load('data/WD_testing_1.mat'); 
+load('data/CV_Abnormality_3.mat'); 
 %imgVol = im2double(vol);
 
 for ii = 1 : size(Video_Output, 4)
-    Video_Output(:, :, :, ii) = im2double(Video_Output(:, :, :, ii));
+    Video_Output(:, :, :, ii) = Video_Output(:, :, :, ii)/255;
     imgVol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
 end
 
@@ -68,15 +68,15 @@ fprintf('We can achieve %d FPS in the current testing video\n', round(size(imgVo
 
 
 %% video demo
-optThr = 0.22;
+optThr = 0.10;
 AbEventShow3 = imgVol; 
 for frameID = 1 : size(imgVol,3)
     AbEventShow3(:,:,frameID) = double(imresize(AbEvent3(:,:,frameID) ,[H, W], 'nearest') > optThr) ;
 end
 
-grid = zeros(120, 160);
+grid = zeros(90, 160);
 grid(:, [1, 10: 10: 160]) = 1;
-grid([1, 10: 10: 120], :) = 1;
+grid([1, 10: 10: 90], :) = 1;
 
 for frameID = 1 : size(Video_Output,4)  
     curFrame = Video_Output(:, :, :, frameID);
