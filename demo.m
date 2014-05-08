@@ -41,9 +41,7 @@ ThrMotionVol = 5;
 load('data/WD_testing_1.mat'); 
 %imgVol = im2double(vol);
 
-for ii = 1 : size(Video_Output, 4)
-    imgVol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
-end
+imgVol = im2double(Video_Output);
 
 t1 = tic;
 volBlur = imgVol; 

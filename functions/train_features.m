@@ -23,7 +23,7 @@ tprLen = params.tprLen;
  
 load(fileName, 'Video_Output');
 
-vol = Video_Output;
+vol = im2double(Video_Output);
  
 voBlur = vol; 
 blurKer = fspecial('gaussian', [3,3],1);    %smooth
