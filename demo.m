@@ -11,11 +11,11 @@ addpath('functions')
 addpath('data')
 load('data/sparse_combinations/Tw.mat','Tw');
 load('data/sparse_combinations/R.mat','R');
-params.H = 120;       % loaded video height size
+params.H = 90;       % loaded video height size
 params.W = 160;       % loaded video width size
 params.patchWin = 10; % 3D patch spatial size 
 params.tprLen = 5;    % 3D patch temporal length
-params.BKH = 12;      % region number in height
+params.BKH = 9;      % region number in height
 params.BKW = 16;      % region number in width
 params.srs = 5;       % spatial sampling rate in trainning video volume
 params.trs = 2;       % temporal sampling rate in trainning video volume 
@@ -42,6 +42,7 @@ load('data/WD_testing_1.mat');
 %imgVol = im2double(vol);
 
 for ii = 1 : size(Video_Output, 4)
+    Video_Output(:, :, :, ii) = im2double(Video_Output(:, :, :, ii));
     imgVol(:, :, ii) = rgb2gray(Video_Output(:, :, :, ii));
 end
 

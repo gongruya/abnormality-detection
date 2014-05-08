@@ -3,7 +3,7 @@ function video_gen(video_name, save_name)
     tot = get(obj, 'NumberOfFrames');
     Video_Output = [];
     for ii = 1 : tot
-        curFrame = imresize(im2double(read(obj, ii)), [90, 160]);
+        curFrame = imresize(read(obj, ii), [90, 160]);
         Video_Output(:, :, :, ii) = curFrame;
         fprintf('%d/%d ', ii, tot);
     end
