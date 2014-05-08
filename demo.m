@@ -38,7 +38,7 @@ ThrMotionVol = 2;
 %volFrame = 20;
 %volFrame = 21;
 
-load('data/CV_Abnormality_2.mat'); 
+load('data/CV_Abnormality_6.mat'); 
 %imgVol = im2double(vol);
 
 for ii = 1 : size(Video_Output, 4)
@@ -68,7 +68,7 @@ fprintf('We can achieve %d FPS in the current testing video\n', round(size(imgVo
 
 
 %% video demo
-optThr = 0.12;
+optThr = 0.16;
 AbEventShow3 = imgVol; 
 for frameID = 1 : size(imgVol,3)
     AbEventShow3(:,:,frameID) = double(imresize(AbEvent3(:,:,frameID) ,[H, W], 'nearest') > optThr) ;
