@@ -3,6 +3,6 @@ Thumbs.db
 .hg
 data/**
 data
-feaMatPCA.mat
+*.mat
 *.pdf
 *.swp
