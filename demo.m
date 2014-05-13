@@ -11,13 +11,13 @@ addpath('functions')
 addpath('data')
 load('data/sparse_combinations/Tw.mat','Tw');
 load('data/sparse_combinations/R.mat','R');
-params.H = 90;       % loaded video height size
+params.H = 120;       % loaded video height size
 params.W = 160;       % loaded video width size
-params.patchWin = 5; % 3D patch spatial size 
+params.patchWin = 10; % 3D patch spatial size 
 params.tprLen = 5;    % 3D patch temporal length
-params.BKH = 18;      % region number in height
-params.BKW = 32;      % region number in width
-params.srs = 3;       % spatial sampling rate in trainning video volume
+params.BKH = 12;      % region number in height
+params.BKW = 16;      % region number in width
+params.srs = 5;       % spatial sampling rate in trainning video volume
 params.trs = 2;       % temporal sampling rate in trainning video volume 
 params.PCAdim = 100;  % PCA Compression dimension
 params.MT_thr = 2;    % 3D patch selecting threshold 
@@ -38,7 +38,7 @@ ThrMotionVol = 2;
 %volFrame = 20;
 %volFrame = 21;
 
-load('data/CV_Abnormality_8.mat'); 
+load('data/CV_Abnormality_New_Testing_3.mat'); 
 %imgVol = im2double(vol);
 
 for ii = 1 : size(Video_Output, 4)
@@ -68,7 +68,7 @@ fprintf('We can achieve %d FPS in the current testing video\n', round(size(imgVo
 
 
 %% video demo
-optThr = 0.14;
+optThr = 0.25;
 AbEventShow3 = imgVol; 
 for frameID = 1 : size(imgVol,3)
     AbEventShow3(:,:,frameID) = double(imresize(AbEvent3(:,:,frameID) ,[H, W], 'nearest') > optThr) ;

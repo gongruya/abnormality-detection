@@ -1,14 +1,14 @@
 %% Parameters 
-params.H = 90;       % loaded video height size
+params.H = 120;       % loaded video height size
 params.W = 160;       % loaded video width size
-params.patchWin = 5; % 3D patch spatial size 
+params.patchWin = 10; % 3D patch spatial size 
 params.tprLen = 5;    % 3D patch temporal length
-params.BKH = 18;      % region number in height
-params.BKW = 32;      % region number in width
-params.srs = 3;       % spatial sampling rate in trainning video volume
+params.BKH = 12;      % region number in height
+params.BKW = 16;      % region number in width
+params.srs = 5;       % spatial sampling rate in trainning video volume
 params.trs = 2;       % temporal sampling rate in trainning video volume 
 params.PCAdim = 100;  % PCA Compression dimension
-params.MT_thr = 2;    % 3D patch selecting threshold 
+params.MT_thr = 3;    % 3D patch selecting threshold 
 
 
 H = params.H;
@@ -26,16 +26,16 @@ addpath('data')
 %% Training feature generation (about 1 minute)
  tic;
 fileName = 'data/training_vol';
-numEachVol = 200000; % The maximum sample number in each training video is 7000 
+numEachVol = 100000; % The maximum sample number in each training video is 7000 
 trainVolDirs = name_filtering(fileName); 
-Cmatrix = zeros(tprLen*patchWin^2, length(trainVolDirs)*numEachVol);
+Cmatrix = zeros(tprLen*patchWin^2, 6 * numEachVol);
 rand('state', 0);
-for ii = 1 : 1%length(trainVolDirs)
-    [feaRawTrain, LocV3Train]  = train_features('data/CV_Abnormality_Training.mat', params);%train_features([fileName,'/', trainVolDirs{ii}], params);
+for ii = 1 : 6
+    [feaRawTrain, LocV3Train]  = train_features(['data/CV_Abnormality_New_Training_', num2str(ii), '.mat'], params);
     t = randperm(size(feaRawTrain,2));
     curFeaNum = min(size(feaRawTrain,2),numEachVol);
     Cmatrix(:, numEachVol*(ii - 1) + 1 : numEachVol*(ii - 1) + curFeaNum) =  feaRawTrain(:,t(1:curFeaNum));     %put random curFeaNum column into Cmatrix
-    disp(['Feature extraction in ', num2str(ii),' th training video is done!'])
+    disp(['Feature extraction in video ', num2str(ii),' is done!'])
 end
 Cmatrix(:,sum(abs(Cmatrix)) == 0) = [];         %take out the zero valued columns
 
@@ -43,11 +43,11 @@ COEFF = princomp(Cmatrix');                     %compress raws
 Tw = COEFF(:,1:PCAdim)';
 feaMatPCA = Tw*Cmatrix;  
 save('data/sparse_combinations/Tw.mat','Tw');
- toc;
+toc;
 
 %% Sparse combination learning  (about 4 minutes)
 tic;
-D = sparse_combination(feaMatPCA, 20, 0.21);
+D = sparse_combination(feaMatPCA, 20, 0.24);
 %D = sparse_combination_old(feaMatPCA, 20, 0.10);
 %   D = sparse_combination(X, Dim, Thr) learns sparse combination 
 %
