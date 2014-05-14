@@ -1,15 +1,5 @@
 %% Parameters 
-params.H = 120;       % loaded video height size
-params.W = 160;       % loaded video width size
-params.patchWin = 10; % 3D patch spatial size 
-params.tprLen = 5;    % 3D patch temporal length
-params.BKH = 12;      % region number in height
-params.BKW = 16;      % region number in width
-params.srs = 5;       % spatial sampling rate in trainning video volume
-params.trs = 2;       % temporal sampling rate in trainning video volume 
-params.PCAdim = 100;  % PCA Compression dimension
-params.MT_thr = 3;    % 3D patch selecting threshold 
-
+set_param;
 
 H = params.H;
 W = params.W; 
@@ -47,8 +37,8 @@ toc;
 
 %% Sparse combination learning  (about 4 minutes)
 tic;
-D = sparse_combination(feaMatPCA, 20, 0.24);
-%D = sparse_combination_old(feaMatPCA, 20, 0.10);
+%D = sparse_combination(feaMatPCA, 25, 0.22);
+D = sparse_combination_old(feaMatPCA, 20, 0.10);
 %   D = sparse_combination(X, Dim, Thr) learns sparse combination 
 %
 %   input: 

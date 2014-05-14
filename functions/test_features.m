@@ -1,4 +1,4 @@
-function [feaPCA, LocV3] = test_features(feaVol, Tw, ThrMotionVol, params)  
+function [feaPCA, LocV3] = test_features(feaVol, Tw, params)  
 %train_features - "Abnormal Event Detection at 150 FPS in Matlab"
 %
 %   [feaPCA, LocV3] = test_features(feaVol, Tw, ThrMotionVol, params)
@@ -17,7 +17,8 @@ function [feaPCA, LocV3] = test_features(feaVol, Tw, ThrMotionVol, params)
     patchWin = params.patchWin; 
     tprLen = params.tprLen;
     BKH = params.BKH;
-    BKW = params.BKW;  
+    BKW = params.BKW;
+    ThrMotionVol = params.MT_thr;
     rsNum = 30000; % reserved number:
     hftprLen = (tprLen - 1)/2;
 
