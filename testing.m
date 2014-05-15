@@ -1,5 +1,5 @@
 %% Parameters 
-set_param;
+set_params;
 
 H = params.H;
 W = params.W; 

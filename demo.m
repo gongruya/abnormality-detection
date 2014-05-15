@@ -12,7 +12,7 @@ addpath('data')
 load('data/sparse_combinations/Tw.mat','Tw');
 load('data/sparse_combinations/R.mat','R');
 
-set_param;
+set_params;
 
 H = params.H;
 W = params.W; 
@@ -72,7 +72,7 @@ for frameID = 1 : size(Video_Output,4) - 1
     curFrame = Video_Output(:, :, :, frameID);
     curFrame(:, :, 2) = min(curFrame(:, :, 2) + 0.5 * AbEventShow3(:,:,frameID), 1);
     %curFrame(:, :, 3) = min(curFrame(:, :, 3) + 0.95 * grid, 1);
-    curFrame = imresize(curFrame, 3);
+    %curFrame = imresize(curFrame, 3);
     imshow(curFrame);
     pause(1/100);
     %getframe;
