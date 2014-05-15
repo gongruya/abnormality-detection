@@ -37,7 +37,7 @@ for pp = 1 : size(vol,3)
 end
 volG = abs(voBlur(:,:,1:(end-1)) - voBlur(:,:,2:end)) ;     %caculate gradient of Time
 
-rsNum = 100000; % reserved number:
+rsNum = 10000; % reserved number:
 
 
 count = 0;

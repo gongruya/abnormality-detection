@@ -16,12 +16,12 @@ addpath('data')
 %% Training feature generation (about 1 minute)
  tic;
 fileName = 'data/training_vol';
-numEachVol = 100000; % The maximum sample number in each training video is 7000 
+numEachVol = 10000; % The maximum sample number in each training video is 7000 
 trainVolDirs = name_filtering(fileName); 
 Cmatrix = zeros(tprLen*patchWin^2, 6 * numEachVol);
 rand('state', 0);
-for ii = 1 : 6
-    [feaRawTrain, LocV3Train]  = train_features(['data/CV_Abnormality_New_Training_', num2str(ii), '.mat'], params);
+for ii = [1 : 10, 12, 13]
+    [feaRawTrain, LocV3Train]  = train_features(['data/CV_Normal_', num2str(ii), '.mat'], params);
     t = randperm(size(feaRawTrain,2));
     curFeaNum = min(size(feaRawTrain,2),numEachVol);
     Cmatrix(:, numEachVol*(ii - 1) + 1 : numEachVol*(ii - 1) + curFeaNum) =  feaRawTrain(:,t(1:curFeaNum));     %put random curFeaNum column into Cmatrix
@@ -37,8 +37,8 @@ toc;
 
 %% Sparse combination learning  (about 4 minutes)
 tic;
-%D = sparse_combination(feaMatPCA, 25, 0.22);
-D = sparse_combination_old(feaMatPCA, 20, 0.10);
+D = sparse_combination(feaMatPCA, 20, 0.2);
+%D = sparse_combination_old(feaMatPCA, 20, 0.10);
 %   D = sparse_combination(X, Dim, Thr) learns sparse combination 
 %
 %   input: 

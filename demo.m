@@ -21,14 +21,14 @@ tprLen = params.tprLen;
 BKH = params.BKH;
 BKW = params.BKW;
 PCAdim = params.PCAdim;
-ThrTest = 0.20;
+ThrTest = 0.22;
 
 
 %volFrame = 10; % the number of video we test
 %volFrame = 20;
 %volFrame = 21;
 
-load('data/CV_Abnormality_New_Testing_2.mat'); 
+load('data/CV_Abnormal_Motorcycle.mat'); 
 %imgVol = im2double(vol);
 
 for ii = 1 : size(Video_Output, 4)
@@ -45,35 +45,46 @@ for pp = 1 : size(imgVol,3)
 end
 feaVol = abs(volBlur(:,:,1:(end-1)) - volBlur(:,:,2:end));
 [feaPCA, LocV3] = test_features(feaVol, Tw, params); 
-Err = recError(feaPCA, R, ThrTest);
 
 AbEvent = zeros(BKH, BKW, size(imgVol,3));
-for ii = 1 : length(Err)
-    AbEvent(LocV3(1,ii),LocV3(2,ii),LocV3(3,ii)) =  Err(ii);
+
+mask = conv2(ones(BKH, BKW), blurKer,'same');
+
+for ii = 1 : size(feaPCA, 2)
+    ab = 1;
+    for jj = 1 : length(R)
+        if norm(R(jj).val * feaPCA(:, ii))^2 <= ThrTest
+            ab = 0;
+            break;
+        end
+    end
+    AbEvent(LocV3(1,ii),LocV3(2,ii),LocV3(3,ii)) = ab;
 end
-AbEvent3 = smooth3( AbEvent, 'box', 5);
-% AbEvent3 already can indicate abnormalities in each region, so testing stops here.
+%AbEvent = smooth3(AbEvent, 'gaussian', 3) > 0.2;
 t2 = toc(t1); 
 fprintf('We can achieve %d FPS in the current testing video\n', round(size(imgVol,3)/t2));
 
 
 %% video demo
-optThr = 0.20;
-AbEventShow3 = imgVol; 
-for frameID = 1 : size(imgVol,3)
-    AbEventShow3(:,:,frameID) = double(imresize(AbEvent3(:,:,frameID) ,[H, W], 'nearest') > optThr) ;
-end
+AbEventShow3 = imresize(AbEvent, [H, W], 'nearest');
 
 grid = zeros(H, W);
 grid(:, [1, patchWin: patchWin: W]) = 1;
 grid([1, patchWin: patchWin: H], :) = 1;
+grid_rgb = zeros(H, W, 3);
+grid_rgb(:, :, 1) = 0.84 * grid;                %r
+grid_rgb(:, :, 2) = 0.94 * grid;                %g
+grid_rgb(:, :, 3) = 0.14 * grid;                %b
+grid_rgb = imresize(grid_rgb, 3, 'nearest');
 
-for frameID = 1 : size(Video_Output,4) - 1
+for frameID = 1 : size(Video_Output,4) - 2
     curFrame = Video_Output(:, :, :, frameID);
-    curFrame(:, :, 2) = min(curFrame(:, :, 2) + 0.5 * AbEventShow3(:,:,frameID), 1);
-    %curFrame(:, :, 3) = min(curFrame(:, :, 3) + 0.95 * grid, 1);
-    %curFrame = imresize(curFrame, 3);
+    curFrame(:, :, 2) = min(curFrame(:, :, 2) + 0.8 * AbEventShow3(:,:,frameID), 1);
+    curFrame = imresize(curFrame, 3);
+    curFrame = min(curFrame + 0.3 * grid_rgb, 1);
     imshow(curFrame);
-    pause(1/100);
+    text(400, 20, [num2str(frameID) '/' num2str(size(Video_Output,4))], ...
+        'FontSize', 20, 'FontName', 'Courier New', 'FontWeight', 'bold', 'BackgroundColor', [.7 .9 .7], 'HorizontalAlignment', 'center');
+    pause(1/200);
     %getframe;
 end
