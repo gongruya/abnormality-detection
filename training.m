@@ -15,7 +15,6 @@ addpath('data')
 
 %% Training feature generation (about 1 minute)
  tic;
-fileName = 'data/training_vol';
 numEachVol = 10000; % The maximum sample number in each training video is 7000 
 trainVolDirs = name_filtering(fileName); 
 Cmatrix = zeros(tprLen*patchWin^2, 6 * numEachVol);
