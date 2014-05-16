@@ -16,7 +16,6 @@ addpath('data')
 %% Training feature generation (about 1 minute)
  tic;
 numEachVol = 10000; % The maximum sample number in each training video is 7000 
-trainVolDirs = name_filtering(fileName); 
 Cmatrix = zeros(tprLen*patchWin^2, 6 * numEachVol);
 rand('state', 0);
 for ii = [1 : 10, 12, 13]
@@ -36,7 +35,7 @@ toc;
 
 %% Sparse combination learning  (about 4 minutes)
 tic;
-D = sparse_combination(feaMatPCA, 20, 0.2);
+D = sparse_combination(feaMatPCA, 20, 0.21);
 %D = sparse_combination_old(feaMatPCA, 20, 0.10);
 %   D = sparse_combination(X, Dim, Thr) learns sparse combination 
 %
